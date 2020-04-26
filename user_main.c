@@ -122,9 +122,11 @@ LOCAL void init_done_callback (void) {
   // itself a pointer (look above where you defined it). Also notice how we have to
   // null the SSID and password pointers or you will have junk left over from the
   // previous run.  We use os_bzero to null these pointers (aka char arrays).
-  config.ssid_len = 8;
+  // Remember to use the exact number of characters in WIFI_SSID for ssid_len and os_memcpy.
+  // Otherwise you'll end up with an SSID like this: ESPWHATEVER\x00!
+  config.ssid_len = 7;
   os_bzero(&config.ssid, 32);
-  os_memcpy(&config.ssid, SSID, 8);
+  os_memcpy(&config.ssid, SSID, 7);
   os_bzero(&config.password, 64);
   os_memcpy(&config.password, PASSWORD, 10);
   config.authmode = AUTH_WPA2_PSK;
